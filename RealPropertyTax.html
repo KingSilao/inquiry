@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Property Tax Calculator</title>
+	<style>
+		body {
+			background-color: #f7f7f7;
+			font-family: Arial, sans-serif;
+		}
+		h1 {
+			color: #1a237e;
+			font-size: 2.5em;
+			text-align: center;
+			margin-top: 50px;
+		}
+		p{
+			text-align: center;
+				}
+		form {
+			background-color: #ffffff;
+			border-radius: 10px;
+			box-shadow: 0px 0px 10px #cccccc;
+			padding: 20px;
+			margin: 0 auto;
+			max-width: 500px;
+			margin-top: 30px;
+			margin-bottom: 50px;
+		}
+		label {
+			display: block;
+			font-size: 1.2em;
+			color: #666666;
+			margin-top: 15px;
+			margin-bottom: 5px;
+		}
+		input[type="text"], select {
+			width: 100%;
+			padding: 12px;
+			border: 1px solid #cccccc;
+			border-radius: 4px;
+			box-sizing: border-box;
+			font-size: 1.2em;
+			margin-top: 5px;
+			margin-bottom: 10px;
+			background-color: #f2f2f2;
+			color: #333333;
+		}
+		#property_type, #barangay, #street {
+			width: 100%;
+			padding: 12px;
+			border: 1px solid #cccccc;
+			border-radius: 4px;
+			box-sizing: border-box;
+			font-size: 1.2em;
+			margin-top: 5px;
+			margin-bottom: 10px;
+			background-color: #f2f2f2;
+			color: #333333;
+		}
+		input[type="submit"] {
+			background-color: #1a237e;
+			color: #ffffff;
+			font-size: 1.2em;
+			border: none;
+			border-radius: 4px;
+			padding: 12px 20px;
+			cursor: pointer;
+			margin-top: 10px;
+			margin-bottom: 20px;
+			width: 100%;
+		}
+		input[type="submit"]:hover {
+			background-color: #333366;
+		}
+		#payable_tax {
+			width: 100%;
+			padding: 12px;
+			border: 1px solid #cccccc;
+			border-radius: 4px;
+			box-sizing: border-box;
+			font-size: 1.2em;
+			margin-top: 5px;
+			margin-bottom: 10px;
+			background-color: #ffffff;
+			color: #333333;
+			text-align: center;
+			font-weight: bold;
+		}
+		.note {
+			font-size: 0.8em;
+			color: #666666;
+			margin-top: 20px;
+			margin-bottom: 0;
+			text-align: center;
+		}
+		.note span {
+			font-weight: bold;
+			color: #333333;
+		}
+	</style>
+	<script>
+        
+	function calculateTax() {
+        var vicinity = 0;
+        
+        var assessment_level = .20;
+        var tax_rate = .01;
+		var size = document.getElementById("size").value;
+		var property_type = document.getElementById("property_type").value;
+		var multiplier = 0;
+		
+		if (property_type == "residential") {
+			multiplier = 4000;
+		} else if (property_type == "commercial") {
+			multiplier = 3000;
+		} else if (property_type == "industrial") {
+			multiplier = 2000;
+		}
+		
+		var payable_tax = size * multiplier * assessment_level * tax_rate;
+		document.getElementById("payable_tax").value = payable_tax;
+	}
+    function updateStreets() {
+			var baranggay = document.getElementById("baranggay").value;
+			var streetSelect = document.getElementById("street");
+			if (baranggay == "San Ignacio") {
+				streetSelect.innerHTML = "<option value=''>Select Street</option><option value='ROMULO ROSALES ST'>ROMULO ROSALES ST</option><option value='MONTILLA  BLVD'>MONTILLA  BLVD</option><option value='Street 2'>RODOLFO D. CALO ST</option><option value='Street 2'>SAN FRANCISCO STREET</option><option value='Street 2'>ONG YIU ROAD</option><option value='Street 2'>SAN IGNACIO STREET</option><option value='Street 2'>TORRALBA STREET</option><option value='Street 2'>CORVERA STREET</option><option value='Street 2'>MONTILLA STREET</option><option value='Street 2'>DAVID ROSALES ST</option><option value='Street 2'>All Other Streets</option>";
+			} else if (baranggay == "Ong yiu") {
+				streetSelect.innerHTML = "<option value=''>Select Street</option><option value='Street 4'>Street 4</option><option value='Street 5'>Street 5</option>";
+			} else {
+				streetSelect.innerHTML = "<option value=''>Select Street</option>";
+			}
+			updateVicinities();
+		}
+
+		function updateVicinities() {
+			var street = document.getElementById("street").value;
+			var vicinitySelect = document.getElementById("vicinity");
+			if (street == "ROMULO ROSALES ST") {
+				vicinitySelect.innerHTML = "<option value=''>Select Vicinity</option><option value='Random 1'>From Ong Yiu Road to D. Rosales Street</option>";
+			} else if (street == "MONTILLA  BLVD") {
+				vicinitySelect.innerHTML = "<option value=''>Select Vicinity</option><option value='Random 3'>From Montilla Street to Ong Yiu Road 100 M Northward - Bdry.</option><option value='Random 4'>From Montilla Street to D. Rosales Street Montilla Blvd - Rosales</option>";
+			} else if (street == "Street 4") {
+				vicinitySelect.innerHTML = "<option value=''>Select Vicinity</option><option value='Random 5'>Random 5</option><option value='Random 6'>Random 6</option>";
+			} else if (street == "Street 5") {
+				vicinitySelect.innerHTML = "<option value=''>Select Vicinity</option><option value='Random 7'>Random 7</option><option value='Random 8'>Random 8</option>";
+			} else {
+				vicinitySelect.innerHTML = "<option value=''>Select Vicinity</option>";
+			}
+		}
+        
+</script>
+</head>
+<body>
+	<header>
+		<h1>Welcome to the Butuan City Property Tax Inquiry</h1>
+        <div>
+            <label for="within_butuan">Is your property located within Butuan City?</label>
+            <input type="checkbox" id="within_butuan" name="within_butuan" value="yes">
+        </div>
+		<p>Please fill in the following information to calculate your property tax.</p>
+	</header>
+	<form>
+        <!--RAndom names in update viceinities did not change a -->
+
+        <label for="baranggay">Baranggay:</label>
+        <select id="baranggay" name="baranggay" onchange="updateStreets()">
+            <option value="">Select Baranggay</option>
+            <option value="San Ignacio">San Ignacio</option>
+            <option value="Ong yiu">Ong yiu</option>
+        </select>
+    
+        
+    
+        <label for="street">Street:</label>
+        <select id="street" name="street" onchange="updateVicinities()">
+            <option value="">Select Street</option>
+        </select>
+    
+        
+    
+        <label for="vicinity">Vicinity:</label>
+        <select id="vicinity" name="vicinity">
+            <option value="">Select Vicinity</option>
+        </select>
+
+		<label for="property_type">Property Type:</label>
+		<select id="property_type" name="property_type">
+			<option value="residential">Residential</option>
+			<option value="commercial">Commercial</option>
+			<option value="industrial">Industrial</option>
+		</select><br><br>
+
+		<label for="size">Size (sq ft):</label>
+		<input type="number" id="size" name="size" onchange="calculateTax()"><br><br>
+
+		<label for="payable_tax">Payable Tax ($):</label>
+		<input type="number" id="payable_tax" name="payable_tax" readonly><br><br>
+
+		<input type="button" value="Calculate" onclick="calculateTax()">
+
+		<p>Note: This calculation is not 100% accurate; however, the result of this calculation will not be far from the real assessment result. Thank you!</p>
+	</form>
+</body>
+</html>
